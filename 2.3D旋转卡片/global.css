@@ -1,0 +1,86 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    /* 弹性布局，让页面元素水平+垂直居中 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* 设置body高度为100%窗口高度 */
+    height: 100vh;
+    /* 背景渐变色 */
+    background-image: linear-gradient(200deg,#5ee7df,#b490ca);
+}
+
+.card {
+    position: relative;
+    width: 300px;
+    height: 450px;
+    /* 圆角 */
+    border-radius: 30px;
+    /* 鼠标移到元素上变成小手 */
+    cursor: pointer;
+    background-color: #fff;
+    /* 盒子阴影 */
+    box-shadow: 1px 1px 20px rgba(0.66, -0.47, 0.33, 1.5);
+    /* 给父元素添加一个3D盒子模型，那么子元素就到背面了，
+    这个属性是加到父元素上的，但是影响的是子元素 */
+    /* transform-style 设置元素的子元素是位于 3D 空间中还是平面中。 */
+    transform-style: preserve-3d;
+    /* 给卡片添加默认动画 */
+    animation: rotate-reverse 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+/* 设置鼠标移入卡片时执行动画 */
+.card:hover {
+    animation: rotate 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+}
+
+.front, 
+.back {
+    /* 绝对定位 子元素是绝对定位，父元素需要相对定位 */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* 弹性布局，让元素垂直陈列 */
+    display: flex;
+    flex-direction: column;
+    /* 设置子元素水平居中 */
+    align-items: center;
+    /* 平均分配高度给每一个子元素 */
+    justify-content: space-around;
+    font-size: 20px;
+    background-color: #fff;
+    border-radius: 30px;
+    /* 隐藏旋转div元素的背面 */
+    backface-visibility: hidden;
+}
+
+.back {
+    /* 因为背面卡片要到后面去，所以我们给背面卡片加一个沿Y轴旋转180度的属性，
+    这里我们可以看到旋转了，但是没到后面去，原因就是父盒子现在不是3D盒子，
+    而是一个2D盒子，所以我们需要让父元素变成一个3D盒子 */
+    transform: rotateY(180deg);
+}
+
+/* 接下来我们定义一下旋转动画 */
+@keyframes rotate{
+    0%{
+        transform: rotateY(0deg);
+    }
+    100%{
+        transform: rotateY(180deg);
+    }
+}
+@keyframes rotate-reverse{
+    0%{
+        transform: rotateY(180deg);
+    }
+    100%{
+        transform: rotateY(0deg);
+    }
+}
