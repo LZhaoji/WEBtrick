@@ -1,0 +1,181 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            text-decoration: none;
+            list-style: none;
+        }
+        /* 宽275 高183 */
+        #banner {
+            width: 275px;
+            height: 183px;
+            border: 2px solid #999; 
+            overflow: hidden;
+            position: relative;
+        }
+
+        #imglist {
+            width: 1375px;
+            height: 183px;
+        }
+
+        #imglist li {
+            float: left;
+        }
+
+        #imglist img {
+            width: 275px;
+            height: 183px;
+        }
+
+        .prev {
+            position: absolute;
+            right: 5px;
+            top: 45%;
+            background: #666;
+            width: 30px;
+            height: 40px;
+            color: #fff;
+            text-align: center;
+            line-height: 40px;
+            cursor: pointer;
+        }
+
+        .next {
+            position: absolute;
+            left: 5px;
+            top: 45%;
+            background: #666;
+            width: 30px;
+            height: 40px;
+            color: #fff;
+            text-align: center;
+            line-height: 40px;
+            cursor: pointer;
+        }
+
+        #icolist {
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+        }
+
+        #icolist li {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: #666;
+            text-align: center;
+            line-height: 30px;
+            color: #fff;
+            float: left;
+            margin-left: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="banner">
+        <ul id="imglist">
+            <li>
+                <img src="./img/下载 (1).jpg" alt="">
+            </li>
+            <li>
+                <img src="./img/下载 (2).jpg" alt="">
+            </li>
+            <li>
+                <img src="./img/下载 (3).jpg" alt="">
+            </li>
+            <li>
+                <img src="./img/下载.jpg" alt="">
+            </li>
+            <li>
+                <img src="./img/下载 (1).jpg" alt="">
+            </li>
+        </ul>
+        <ul id="icolist">
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+        </ul>
+        <div class="prev">》</div>
+        <div class="next">《</div>
+    </div>
+    <script>
+        var prevEl = document.querySelector('.prev');
+        var nextEl = document.querySelector('.next');
+        var esico = document.getElementById('icolist').getElementsByTagName('li');
+        var eicolist = document.querySelector('#icolist');
+        var eimglist = document.querySelector('#imglist');
+        var left = 0;
+        var timer;
+        run();
+        function run(params) {
+            // 这里是为了让最后一张图片接上的不是空白，要再加一张图片
+            if (left <= -1100) {
+                left = 0;
+            }
+            var m = Math.floor(-left / 275);
+            imglist.style.marginLeft = left + 'px';
+            // 一次直接换一张，这里可以加动画
+            left -= 275;
+            // 播完一张图，停6000ms
+            var n = (left % 275 == 0) ? 1000 : 10;
+            timer = setTimeout(run, n);
+            icochange(m);
+        }
+        function imgChange(n) {
+            let lt = - (n * 275);
+            imglist.style.marginLeft = lt + 'px';
+            left = lt;
+        }
+        prevEl.onclick = function() {
+            // 获取当前位置的上一张图片位置
+            let prevgo = Math.floor(-left / 275) - 1;
+            if (prevgo == -1) {
+                prevgo = 3;
+            }
+            imgChange(prevgo);
+        }
+
+        nextEl.onclick = function() {
+            // 获取当前位置的上一张图片位置
+            let nextgo = Math.floor(-left / 275) + 1;
+            if (nextgo == 4) {
+                nextgo = 0;
+            }
+            imgChange(nextgo);
+        }
+
+        function icochange(m) {
+            for (let index = 0; index < esico.length; index++) {
+                esico[index].style.backgroundColor = '';
+            }
+            if (m < esico.length) {
+                esico[m].style.backgroundColor = 'red';
+            }
+        }
+
+        eicolist.onclick = function () {
+            var tg = event.target;
+            let ico = tg.innerHTML - 1;
+            imgChange(ico);
+            icochange(ico);
+        }
+
+        eimglist.onmouseover = function () {
+            clearTimeout(timer);
+        }
+        eimglist.onmouseout = function () {
+            run();
+        }
+    </script>
+</body>
+</html>
