@@ -123,7 +123,7 @@
                 left = 0;
             }
             var m = Math.floor(-left / 275);
-            imglist.style.marginLeft = left + 'px';
+            eimglist.style.marginLeft = left + 'px';
             // 一次直接换一张，这里可以加动画
             left -= 275;
             // 播完一张图，停6000ms
@@ -133,7 +133,7 @@
         }
         function imgChange(n) {
             let lt = - (n * 275);
-            imglist.style.marginLeft = lt + 'px';
+            eimglist.style.marginLeft = lt + 'px';
             left = lt;
         }
         prevEl.onclick = function() {
